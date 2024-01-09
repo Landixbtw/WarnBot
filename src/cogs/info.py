@@ -9,11 +9,11 @@ import logging
 
 try:
     con = mariadb.connect(
-        user="xx",
-        password="xxx",
-        host="xxx",
+        user="ole",
+        password="QrsoL82",
+        host="192.168.10.101",
         port=3306,
-        database="xxx",
+        database="BunnyDB",
     )
 
     # Get Cursor

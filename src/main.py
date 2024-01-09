@@ -70,11 +70,11 @@ class bot(commands.Bot):
 
 try:
     con = mariadb.connect(
-        user="xx",
-        password="xx",
-        host="xxx",
+        user="ole",
+        password="QrsoL82",
+        host="192.168.10.101",
         port=3306,
-        database="xx",
+        database="BunnyDB",
     )
 
 except mariadb.Error as mariaErr:
