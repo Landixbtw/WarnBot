@@ -1,0 +1,113 @@
+import discord
+from discord.ext import commands
+from discord import app_commands
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import mariadb
+import sys
+
+try:
+    con = mariadb.connect(
+        user="ole",
+        password="QrsoL82",
+        host="192.168.10.101",
+        port=3306,
+        database="BunnyDB",
+    )
+
+    #Get Cursor
+    cur = con.cursor()
+
+except mariadb.Error as e:
+    print(f"Error connecting to MariaDB Platform: {e}")
+    sys.exit(1)
+
+
+bot = commands.Bot(command_prefix="#", intents=discord.Intents.all())
+
+
+
+        
+class id_warn(commands.Cog):
+    def __init__ (self, bot: commands.Bot):
+        self.bot = bot
+        
+    @app_commands.command(name="id_warn")
+    @app_commands.default_permissions(administrator=True)
+    @app_commands.describe(user_id="user ID of who to warn")
+    @app_commands.describe(reason="The reason for the warn")
+    async def warn_user(self, interaction: discord.Interaction, user_id: str, reason: str):
+        
+        guild = interaction.guild
+        
+        try:
+            
+            
+            #user = await self.bot.fetch_user(int(user_id))        
+            
+            true_id_list = []
+
+            with open("./src/guild_id/member_ids.xml", "w") as file:
+                for member in guild.members:
+                    file.write(str(member.id)+"\n")            
+                    true_id_list.append(member.id)
+            
+            with open("./src/guild_id/member_ids.xml", "r") as file:
+                lines = file.readlines()
+                for line in lines:
+                    true_id = int(line.strip())
+            
+            #user_id = int(user_id)
+            print(f'this is reason: {reason}')
+            #print(f'this is user: {user}')
+            print(f'this is true_id: {type(true_id)} »» {true_id}')
+            print(f'this is user_id: {type(user_id)} »» {user_id}')
+                        
+            #print(true_id_list)
+            
+            #if int(user_id) in true_id_list:
+            print("passed")
+                
+                
+            DATA = []
+            DATA.append(interaction.user.name)
+            DATA.append(interaction.user.id)
+            user = str(user_id)
+            DATA.append(user)
+            user_id = int(user_id)
+            DATA.append(user_id)
+            DATA.append(reason)
+            now = datetime.now()
+            DATA.append(now)
+                
+            print('↓↓↓↓↓↓↓↓↓↓↓↓ DATA ↓↓↓↓↓↓↓↓↓↓↓↓')
+            print(DATA)
+            print(' ____________________________________')
+            guild = interaction.guild
+
+            warn_one = discord.utils.get(guild.roles, name="warn 1")
+                # warn_two = discord.utils.get(guild.roles, name="warn 2")
+                # warn_three = discord.utils.get(guild.roles, name="warn 3")
+
+
+                # cur.execute(
+                #     "INSERT INTO warns (WARN_AUSGESTELLT_VON TEXT, ID_ONE BIGINT , WARN_AUSGESTELLT_AN TEXT, ID_TWO BIGINT, WARN_GRUND TEXT, AUSGESTELLT_AN DATETIME) VALUES ( ?, ?, ?,  ?, ?, ?)",
+                #     (DATA),
+                # )
+
+            await interaction.response.send_message(
+                    f"**{interaction.user.name}** warned user with the ID {user_id}",
+                )
+            print(f"{interaction.user.name} | {interaction.user.id} has warned user {user_id}")
+                
+            user_id = str(user_id)  
+            await user_id.add_roles(warn_one)
+                
+        except ValueError:
+            await interaction.response.send_message(
+            f"Invalid user ID provided: {user_id}"    
+            )
+            
+async def setup(bot):
+    await bot.add_cog(id_warn(bot))
+    print('id_warn cog geladen ✔️')
