@@ -33,7 +33,7 @@ class id_warn(commands.Cog):
         self.bot = bot
         
     @app_commands.command(name="id_warn")
-    @app_commands.default_permissions(administrator=True)
+    @app_commands.default_permissions(manage_roles=True)
     @app_commands.describe(user_id="user ID of who to warn")
     @app_commands.describe(reason="The reason for the warn")
     async def warn_user(self, interaction: discord.Interaction, user_id: str, reason: str):
