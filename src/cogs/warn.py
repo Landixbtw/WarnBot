@@ -8,11 +8,11 @@ import sys
 
 try:
     con = mariadb.connect(
-        user="ole",
-        password="QrsoL82",
-        host="192.168.10.101",
+        user="xx",
+        password="xx",
+        host="xxx",
         port=3306,
-        database="BunnyDB",
+        database="xx",
     )
 
     # Get Cursor
