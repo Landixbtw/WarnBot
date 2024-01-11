@@ -7,23 +7,8 @@ import mariadb
 import sys
 import logging
 
-try:
-    con = mariadb.connect(
-        user="ole",
-        password="QrsoL82",
-        host="192.168.10.101",
-        port=3306,
-        database="BunnyDB",
-    )
+bot = commands.Bot(command_prefix="&", intents=discord.Intents.all())
 
-    # Get Cursor
-    cur = con.cursor()
-
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
-    sys.exit(1)
-
-bot = commands.Bot(command_prefix="#", intents=discord.Intents.all())
 
 
 class info(commands.Cog):
@@ -37,8 +22,25 @@ class info(commands.Cog):
         self, interaction: discord.Interaction, user: discord.Member
     ):  #
         try:
-            pass
+            
+            try:
+                con = mariadb.connect(
+                user="ole",
+                password="QrsoL82",
+                host="192.168.10.101",
+                port=3306,
+                database="BunnyDB",
+            )
 
+
+                # Get Cursor
+                cur = con.cursor()
+                
+            except mariadb.Error as e:
+                print(f"Error connecting to MariaDB Platform: {e}")
+                sys.exit(1)
+                            
+            
             cur.execute("SELECT ID_TWO FROM warns")
             all_id_two = cur.fetchall()
             sanitized_all_id_two = [str(x[0]) for x in all_id_two]
@@ -47,12 +49,21 @@ class info(commands.Cog):
             cur.execute("SELECT WARN_GRUND FROM warns WHERE ID_TWO = ?", (user.id, ))
             infractions = cur.fetchall()
             print(infractions)
-
+            
+            con.commit()
+            
+            
+            
             shorted_all_id = list(set(sanitized_all_id_two))
 
             
             infractions_list = [infraction[0] for infraction in infractions]
             infractions_str = "\n".join(infractions_list)
+            
+            print(type(shorted_all_id)) 
+            print(shorted_all_id)
+            print(type(str(user.id)))
+            print(user.id)
             
             
             if not str(user.id) in shorted_all_id:
@@ -62,25 +73,22 @@ class info(commands.Cog):
                         color=0x00FF00,  # Green color for no infractions
                     )
                     await interaction.response.send_message(embed=embed)
+            
             if str(user.id) in shorted_all_id:
                     embed = discord.Embed(
                         title=f"Infractions from {user}",
                         description=f"These are all infractions:\n{infractions_str}",
                         color=0xFF0000,
                     )
+                    
                     await interaction.response.send_message(embed=embed)
 
-                # embed = discord.Embed(
-                #     title=f"Infractions from {user}",
-                #     description=f"These are all infractions:\n{infractions_str}",
-                #     color=0xFF0000,
-                # )
-                # # embed.add_field(name="field", value="value", inline=False)
-                # await interaction.response.send_message(embed=embed)
 
         except Exception as err:
             logging.warning(err)
 
+        finally: 
+            con.close()
 
 async def setup(bot):
     await bot.add_cog(info(bot))

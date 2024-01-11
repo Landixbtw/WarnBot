@@ -6,25 +6,8 @@ from dateutil.relativedelta import relativedelta
 import mariadb
 import sys
 
-try:
-    con = mariadb.connect(
-        user="ole",
-        password="QrsoL82",
-        host="192.168.10.101",
-        port=3306,
-        database="BunnyDB",
-    )
 
-
-    # Get Cursor
-    cur = con.cursor()
-
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
-    sys.exit(1)
-
-
-bot = commands.Bot(command_prefix="#", intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="&", intents=discord.Intents.all())
 
 
 class warn(
@@ -40,12 +23,34 @@ class warn(
     async def warn_user(
         self, interaction: discord.Interaction, warn: discord.Member, reason: str = None
     ):
+        if interaction.user == bot.user:
+            return
+            
         guild = interaction.guild
-        warn_one = discord.utils.get(guild.roles, name="warn 1")
-        warn_two = discord.utils.get(guild.roles, name="warn 2")
-        warn_three = discord.utils.get(guild.roles, name="warn 3")
+        warn_one = discord.utils.get(guild.roles, name="1. WARN")
+        warn_two = discord.utils.get(guild.roles, name="2. WARN")
+        warn_three = discord.utils.get(guild.roles, name="3. WARN")
 
         try:
+            
+            try:
+                con = mariadb.connect(
+                user="ole",
+                password="QrsoL82",
+                host="192.168.10.101",
+                port=3306,
+                database="BunnyDB",
+            )
+
+
+                # Get Cursor
+                cur = con.cursor()
+                
+            except mariadb.Error as e:
+                print(f"Error connecting to MariaDB Platform: {e}")
+                sys.exit(1)
+            
+            
             true_id_list = []
             with open("./guild_id/member_ids.xml", "w") as file:
                 for member in guild.members:
@@ -90,7 +95,7 @@ class warn(
                 await warn.add_roles(warn_two)
             if warn_two in warn.roles:
                 await warn.add_roles(warn_three)
-
+                        
             if reason == None:
                 await interaction.response.send_message(
                     f"**{interaction.user.name}** warned user {warn}, with reason : N/A"
@@ -111,14 +116,16 @@ class warn(
                 (DATA),
             )
             con.commit()
-
+            
             print(
                 f"{interaction.user.name} | {interaction.user.id} has warned user {warn}"
             )
 
         except ValueError:
             await interaction.response.send_message(f"Invalid user ID provided: {warn}")
-
+        
+        finally: 
+            con.close()
 
 async def setup(bot):
     await bot.add_cog(warn(bot))
