@@ -15,16 +15,19 @@ class reload(
         self.bot = bot
 
     @app_commands.command(name="reload", description="Reloads a Cog Class")
-    async def reload(interaction: discord.Interaction, cog: Literal["warn", "Cog2"]):
+    async def reload(
+        self, interaction: discord.Interaction, cog: Literal["warn", "info"],
+    ):
+        ctx = await self.bot.get_context(interaction)
         try:
             await bot.reload_extension(name="Cogs." + cog.lower())
-            await interaction.response.send_message(f"Successfully reloaded **{cog}.py**")
+            await ctx.send(f"Successfully reloaded **{cog}.py**")
         except Exception as e:
-            await interaction.response.send_message(
+            await ctx.send(
                 f"Failed! Could not reload this cog class. See error below\n```{e}```"
             )
-            
-            
+
+
 async def setup(bot):
     await bot.add_cog(reload(bot))
-    print("warn cog geladen ✔️")
+    print("reload cog geladen ✔️")
