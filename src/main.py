@@ -60,7 +60,11 @@ class bot(commands.Bot):
         except Exception as e:
             print(e)
         
-        async def role_check():         # this checks if the roles needed for the bot to function are all there if not the bot makes them with color
+        
+        
+    async def on_guild_join(self):
+        
+        async def role_check(guild):         # this checks if the roles needed for the bot to function are all there if not the bot makes them with color
             for guild in bot.guilds:
                 warn_one = discord.utils.get(guild.roles, name="1. WARN")
                 warn_two = discord.utils.get(guild.roles, name="2. WARN")
