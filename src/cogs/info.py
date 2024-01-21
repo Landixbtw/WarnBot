@@ -15,7 +15,7 @@ class info(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="info")
+    @app_commands.command(name="info", description="Get Info about a user, e.g how many infractions")
     @app_commands.default_permissions(manage_roles=True)
     @app_commands.describe(user="who do you want info about")
     async def user_info(

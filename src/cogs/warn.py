@@ -16,9 +16,9 @@ class warn(
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="warn")
+    @app_commands.command(name="warn", description="Warn a user, with or without a reason given." )
     @app_commands.default_permissions(manage_roles=True)
-    @app_commands.describe(warn="user ID of who to warn")
+    @app_commands.describe(warn="user name or ID of whom to warn")
     @app_commands.describe(reason="The reason for the warn")
     async def warn_user(
         self, interaction: discord.Interaction, warn: discord.Member, reason: str = None
