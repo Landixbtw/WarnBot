@@ -91,7 +91,7 @@ try:
     con = mariadb.connect(
         user="ole",
         password="QrsoL82",
-        host="192.168.10.101",
+        host="192.168.10.183",
         port=3306,
         database="BunnyDB",
     )
