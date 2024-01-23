@@ -39,7 +39,7 @@ class warn(
                 password="QrsoL82",
                 host="192.168.10.183",
                 port=3306,
-                database="BunnyDB",
+                database="WarnDB",
             )
 
 
@@ -52,12 +52,12 @@ class warn(
             
             
             true_id_list = []
-            with open("./guild_id/member_ids.xml", "w") as file:
+            with open("src/guild_id/member_ids.xml", "w") as file:
                 for member in guild.members:
                     file.write(str(member.id) + "\n")
                     true_id_list.append(member.id)
 
-            with open("./guild_id/member_ids.xml", "r") as file:
+            with open("src/guild_id/member_ids.xml", "r") as file:
                 lines = file.readlines()
                 for line in lines:
                     true_id = int(line.strip())

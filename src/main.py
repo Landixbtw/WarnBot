@@ -43,7 +43,7 @@ class bot(commands.Bot):
     async def setup_hook(self):
         print("loading cogs ...")
 
-        for file in os.listdir("./src/cogs"):  # lists all the cog files inside the cog folder. (for raspberry /home/username/WarnBot/src/cogs)
+        for file in os.listdir("./cogs"):  # lists all the cog files inside the cog folder. (for raspberry /home/username/WarnBot/src/cogs)
             if file.endswith(".py"):  # It gets all the cogs that ends with a ".py".
                 try:
                     name = file[:-3]  # It gets the name of the file removing the ".py"
@@ -91,7 +91,7 @@ try:
         password="QrsoL82",
         host="192.168.10.183",
         port=3306,
-        database="BunnyDB",
+        database="WarnDB",
     )
 
 except mariadb.Error as mariaErr:
