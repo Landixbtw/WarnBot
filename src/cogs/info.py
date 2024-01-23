@@ -7,6 +7,7 @@ import mariadb
 import sys
 import logging
 
+
 bot = commands.Bot(command_prefix="&", intents=discord.Intents.all())
 
 
@@ -22,7 +23,7 @@ class info(commands.Cog):
         self, interaction: discord.Interaction, user: discord.Member
     ):  #
         try:
-            
+    
             try:
                 con = mariadb.connect(
                 user="ole",
@@ -59,12 +60,6 @@ class info(commands.Cog):
             
             infractions_list = [infraction[0] for infraction in infractions]
             infractions_str = "\n".join(infractions_list)
-            
-            print(type(shorted_all_id)) 
-            print(shorted_all_id)
-            print(type(str(user.id)))
-            print(user.id)
-            
             
             if not str(user.id) in shorted_all_id:
                     embed = discord.Embed(
