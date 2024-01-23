@@ -60,10 +60,16 @@ class bot(commands.Bot):
         except Exception as e:
             print(e)
         
+        print(f'{discord.__version__}')
+        print("------------------------------")
+        await bot.change_presence(
+            activity=discord.Activity(
+                type=discord.ActivityType.watching, name=f"{bot.command_prefix}help"
+            )
+        )
         
-        
-    async def on_guild_join(self):
-        
+    async def on_guild_join(self, guild):
+        print(f"Bot joined guild {guild}")
         async def role_check(guild):         # this checks if the roles needed for the bot to function are all there if not the bot makes them with color
             for guild in bot.guilds:
                 warn_one = discord.utils.get(guild.roles, name="1. WARN")
@@ -75,16 +81,8 @@ class bot(commands.Bot):
                     await guild.create_role(name="2. WARN", color=0xFF0000)
                     await guild.create_role(name="3. WARN", color=0xFF0000)
         
-        await role_check()
+        await role_check(guild)
         print('role check finished')
-        
-        # print(f'{discord.__version__}')
-        print("------------------------------")
-        await bot.change_presence(
-            activity=discord.Activity(
-                type=discord.ActivityType.watching, name=f"{bot.command_prefix}help"
-            )
-        )
 
 
 try:
