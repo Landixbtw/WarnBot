@@ -2,12 +2,12 @@ version: '3'
 services:
   littlehelper:
     build:
-      context: /home/ole/Dokumente/VscProjekte/DiscordBot/DBB/src/Dockerfile  # Path to the directory containing the Dockerfile for bot1
+      context: /home/rocky/DBB/src/Dockerfile
 
   reviewbot:
     build:
-      context: /home/ole/Dokumente/VscProjekte/DiscordBot/ReviewBotPython/src/Dockerfile # Path to the directory containing the Dockerfile for bot2
-
+      context: /home/rocky/ReviewBot/src/Dockerfile
+  
   warnbot:
     build:
-      context: /home/ole/Dokumente/VscProjekte/DiscordBot/WarnBot/src/Dockerfile  # Path to the directory containing the Dockerfile for bot3
+      context: /home/rocky/WarnBot/src/Dockerfile  
