@@ -14,12 +14,12 @@ from help import MyHelp
 load_dotenv()
 token = str(os.getenv("TOKEN"))
 
-logs_dir = "./src/Logs"
-if not os.path.exists(logs_dir):
-    print("Made Logs Folder and file!")
-    os.makedirs(logs_dir)
-# Logging Handler to log info
-handler = logging.FileHandler(filename="./src/Logs/discord.log", encoding="utf-8", mode="w")
+# logs_dir = "./src/Logs"
+# if not os.path.exists(logs_dir):
+#     print("Made Logs Folder and file!")
+#     os.makedirs(logs_dir)
+# # Logging Handler to log info
+# handler = logging.FileHandler(filename="./src/Logs/discord.log", encoding="utf-8", mode="w")
 
 id_dir = "./src/guild_id"
 if not os.path.exists(id_dir):
@@ -112,4 +112,4 @@ bot = bot()
 
 con.close()
 bot.help_command = MyHelp()
-bot.run(token, log_handler=handler)
+bot.run(token, )
