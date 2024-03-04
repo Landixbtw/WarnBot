@@ -1,4 +1,4 @@
-version: '3'
+version: "4"
 services:
   littlehelper:
     build:
@@ -7,7 +7,11 @@ services:
   reviewbot:
     build:
       context: /home/rocky/ReviewBot/src
-  
+
   warnbot:
     build:
-      context: /home/rocky/WarnBot/src  
+      context: /home/rocky/WarnBot/src
+
+  virux:
+    build:
+      context: /home/rocky/Virux/src
